@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GenoCam 多页面原型</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-surface: #0f1115;
+      --bg-surface-alt: #171a20;
+      --text-primary: #EAEFF7;
+      --text-secondary: #98A2B3;
+      --accent-primary: #5B8DEF; /* 与现有文件一致 */
+      --grid-line: rgba(255,255,255,0.12);
+
+      --font-title: 28px; /* 规范：建议字体配比 */
+      --font-subtitle: 18px;
+      --font-body: 14px;
+      --line-body: 20px;
+
+      --radius-s: 12px;
+      --radius-m: 16px;
+      --icon: 24px;
+      --topbar-h: 56px;
+      --toolbar-h: 72px;
+      --carousel-h: 88px;
+      --preset-item: 64px;
+      --shutter: 72px;
+
+      --space-4: 4px; --space-8: 8px; --space-12: 12px; --space-16: 16px;
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --shadow-float: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    html, body { height: 100%; margin: 0; background: var(--bg-surface); color: var(--text-primary); font-family: "Urbanist", system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .app { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+
+    /* 顶部系统条（示意） */
+    .sysbar { height: 24px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .pill { padding: 4px 12px; border-radius: 999px; background: #2b2f38; color: var(--text-secondary); font-size: 12px; }
+    .dot { width: 6px; height: 6px; background: #2EE37A; border-radius: 999px; box-shadow: 0 0 8px rgba(46,227,122,0.6); }
+
+    /* 页面容器 */
+    .page { display: none; padding: var(--space-16); }
+    .page.active { display: block; }
+
+    /* 相机主界面（贴近截图） */
+    .camera { display: grid; grid-template-rows: var(--topbar-h) 1fr var(--toolbar-h) var(--space-16); gap: var(--space-12); }
+    .topbar { height: var(--topbar-h); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 var(--space-16); border-radius: var(--radius-m); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06)); backdrop-filter: blur(10px); box-shadow: var(--shadow-soft); }
+    .topbar .left { font-size: var(--font-subtitle); opacity: 0.85; }
+    .topbar .center { text-align: center; font-size: var(--font-subtitle); color: var(--text-secondary); }
+    .topbar .right { display: flex; justify-content: flex-end; gap: var(--space-12); }
+    .icon-btn { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+
+    .preview-card { position: relative; border-radius: 18px; padding: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.1)); box-shadow: var(--shadow-soft); display: grid; place-items: center; }
+    .preview-chrome { position: absolute; top: 8px; left: 0; right: 0; display: grid; grid-template-columns: 1fr auto; align-items: center; color: var(--text-secondary); font-size: 12px; padding: 0 16px; }
+    .preview-chrome .title { justify-self: center; }
+    .preview-chrome .menu { justify-self: end; }
+    .viewfinder { width: 72%; aspect-ratio: 3/4; border-radius: 12px; border: 2px solid rgba(255,255,255,0.8); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06)); box-shadow: inset 0 0 60px rgba(0,0,0,0.28); }
+    .preview-badges { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; gap: 8px; justify-content: center; }
+    .badge { padding: 6px 10px; border-radius: 999px; background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.08); font-size: 12px; color: var(--text-primary); display: inline-flex; align-items: center; gap: 6px; }
+
+    /* 顶部小图标行（截图中快门上方的小图标） */
+    .mini-toolbar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; justify-items: center; padding: 0 24px; color: var(--text-secondary); }
+    .mini-icon { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); }
+
+    /* 底部工具栏：缩略图、快门、切摄像头 */
+    .toolbar { height: var(--toolbar-h); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--space-12); padding: 0 var(--space-16); border-radius: var(--radius-m); background: var(--bg-surface-alt); box-shadow: var(--shadow-soft); }
+    .album-thumb { width: 64px; height: 64px; border-radius: 14px; background: url('https://picsum.photos/seed/can/200/200') center/cover no-repeat; border: 2px solid rgba(255,255,255,0.12); }
+    .shutter { width: var(--shutter); height: var(--shutter); border-radius: 999px; background: #fff; color: #111; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 -6px 12px rgba(0,0,0,0.25); border: 4px solid #222; }
+    .cam-icon { justify-self: end; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(120% 120% at 70% 30%, rgba(255,255,255,0.12), rgba(0,0,0,0.22)); border: 2px dashed rgba(255,255,255,0.18); }
+
+    /* 其它页面占位：预设、底片、相册、设置 */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .card { aspect-ratio: 1/1; border-radius: var(--radius-s); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06)); border: 1px solid rgba(255,255,255,0.08); display: grid; place-items: center; color: var(--text-secondary); }
+    .list { display: grid; gap: 12px; }
+    .item { padding: 14px; border-radius: 12px; background: var(--bg-surface-alt); border: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary); }
+
+    /* 底部导航 */
+    .nav { position: sticky; bottom: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px 16px; background: rgba(0,0,0,0.35); backdrop-filter: blur(8px); border-top: 1px solid rgba(255,255,255,0.08); }
+    .tab { padding: 8px 10px; border-radius: 12px; color: var(--text-secondary); text-align: center; cursor: pointer; }
+    .tab.active { background: rgba(91,141,239,0.22); color: var(--text-primary); }
+  </style>
+</head>
+<body>
+  <!-- 顶部系统条（示意） -->
+  <div class="sysbar">
+    <span class="pill">uinotes.com</span>
+    <span class="dot" aria-label="indicator"></span>
+    <span style="margin-left:auto;margin-right:16px;opacity:.6">❤</span>
+  </div>
+
+  <main class="app">
+    <!-- 页面：相机 -->
+    <section class="page camera active" id="page-camera" aria-label="相机">
+      <header class="topbar">
+        <div class="left">35mm</div>
+        <div class="center"></div>
+        <div class="right">
+          <button class="icon-btn" aria-label="更多">···</button>
+        </div>
+      </header>
+
+      <div class="preview-card">
+        <div class="preview-chrome"><span class="title">35mm</span><span class="menu">···</span></div>
+        <div class="viewfinder" aria-label="取景框"></div>
+        <div class="preview-badges">
+          <span class="badge">🌡️ <span style="opacity:.9">35</span></span>
+          <span class="badge">📷 <span style="opacity:.9">35</span></span>
+          <span class="badge">☀️ <span style="opacity:.9">0</span></span>
+        </div>
+      </div>
+
+      <div class="mini-toolbar" aria-label="上方工具">
+        <div class="mini-icon" title="相册">🖼️</div>
+        <div class="mini-icon" title="取景比">▢</div>
+        <div class="mini-icon" title="定时">⏱️</div>
+        <div class="mini-icon" title="闪光">⚡</div>
+        <div class="mini-icon" title="设置">⚙️</div>
+      </div>
+
+      <footer class="toolbar" aria-label="底部工具栏">
+        <div class="album-thumb" aria-label="相册缩略图"></div>
+        <button class="shutter" id="shutter" aria-label="快门"></button>
+        <div class="cam-icon" aria-label="相机图标">📷</div>
+      </footer>
+    </section>
+
+    <!-- 页面：预设 -->
+    <section class="page" id="page-preset" aria-label="预设">
+      <h2 style="font-size:var(--font-title);color:var(--text-secondary);margin:8px 0 12px">预设选择</h2>
+      <div class="grid">
+        <div class="card">Classic Film</div>
+        <div class="card">CCD Retro</div>
+        <div class="card">8mm Cinema</div>
+        <div class="card">VHS Tape</div>
+        <div class="card">Toy Cam</div>
+        <div class="card">Slide Positive</div>
+      </div>
+    </section>
+
+    <!-- 页面：底片/重冲洗 -->
+    <section class="page" id="page-lab" aria-label="底片与重冲洗">
+      <h2 style="font-size:var(--font-title);color:var(--text-secondary);margin:8px 0 12px">底片库</h2>
+      <div class="list">
+        <div class="item">2025-11-01 14:22  Classic Film  EV +0.3  色温 5500K</div>
+        <div class="item">2025-10-08 19:04  CCD Retro   EV -0.7  色温 5000K</div>
+      </div>
+    </section>
+
+    <!-- 页面：相册 -->
+    <section class="page" id="page-gallery" aria-label="相册">
+      <h2 style="font-size:var(--font-title);color:var(--text-secondary);margin:8px 0 12px">相册</h2>
+      <div class="grid">
+        <div class="card">照片1</div>
+        <div class="card">照片2</div>
+        <div class="card">视频1</div>
+        <div class="card">照片3</div>
+        <div class="card">照片4</div>
+        <div class="card">视频2</div>
+      </div>
+    </section>
+
+    <!-- 页面：设置 -->
+    <section class="page" id="page-settings" aria-label="设置">
+      <h2 style="font-size:var(--font-title);color:var(--text-secondary);margin:8px 0 12px">设置</h2>
+      <div class="list">
+        <div class="item">构图网格：开</div>
+        <div class="item">闪光灯：自动</div>
+        <div class="item">视频分辨率：1080p@60</div>
+        <div class="item">触觉反馈：开</div>
+      </div>
+    </section>
+
+    <!-- 底部导航 -->
+    <nav class="nav" aria-label="底部导航">
+      <button class="tab active" data-target="page-camera">相机</button>
+      <button class="tab" data-target="page-preset">预设</button>
+      <button class="tab" data-target="page-lab">底片</button>
+      <button class="tab" data-target="page-gallery">相册</button>
+      <button class="tab" data-target="page-settings">设置</button>
+    </nav>
+  </main>
+
+  <script>
+    // 页面切换
+    const tabs = document.querySelectorAll('.tab');
+    const pages = document.querySelectorAll('.page');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const id = tab.dataset.target;
+        pages.forEach(p => p.classList.toggle('active', p.id === id));
+      });
+    });
+
+    // 快门点击动效
+    const shutter = document.getElementById('shutter');
+    shutter.addEventListener('click', () => {
+      shutter.style.transform = 'scale(0.96)';
+      setTimeout(() => shutter.style.transform = 'scale(1.00)', 140);
+    });
+  </script>
+</body>
+</html>
