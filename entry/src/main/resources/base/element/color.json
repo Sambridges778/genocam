@@ -3,6 +3,30 @@
     {
       "name": "start_window_background",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "bg_surface",
+      "value": "#F6F6F6"
+    },
+    {
+      "name": "bg_surface_alt",
+      "value": "#ECEFF4"
+    },
+    {
+      "name": "text_primary",
+      "value": "#000000"
+    },
+    {
+      "name": "text_secondary",
+      "value": "#000000"
+    },
+    {
+      "name": "accent_primary",
+      "value": "#FAD349"
+    },
+    {
+      "name": "grid_line",
+      "value": "#000000"
     }
   ]
 }
