@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>相机主页面 - GenoCam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="device">
+    <div class="notch"></div>
+    <div class="sysbar">
+      <span class="pill">uinotes.com</span>
+      <span class="dot" aria-label="indicator"></span>
+      <span style="margin-left:auto;margin-right:16px;opacity:.6">❤</span>
+    </div>
+    <main class="app">
+      <header class="topbar">
+        <div></div><div class="center">Geno相机</div><div><button class="icon-btn">···</button></div>
+      </header>
+      <div class="preview-card">
+        <div class="preview-chrome"><span class="title">35mm</span><span class="menu">···</span></div>
+        <div class="viewfinder" aria-label="取景框"></div>
+        <div class="preview-badges">
+          <span class="badge" title="色温">🌡️</span>
+          <span class="badge" title="焦段">35</span>
+          <span class="badge" title="亮度">☀️</span>
+        </div>
+      </div>
+      <div class="mini-toolbar" aria-label="上方工具">
+        <div class="mini-icon" title="相册">🖼️</div>
+        <div class="mini-icon" title="取景比">▢</div>
+        <div class="mini-icon" title="定时">⏱️</div>
+        <div class="mini-icon" title="闪光">⚡</div>
+        <div class="mini-icon" title="设置">⚙️</div>
+      </div>
+      <footer class="toolbar" aria-label="底部工具栏">
+        <div class="album-thumb" aria-label="相册缩略图"></div>
+        <button class="shutter" id="shutter" aria-label="快门"></button>
+        <div class="cam-icon" aria-label="相机图标">📷</div>
+      </footer>
+      <footer class="homebar" aria-label="系统主页指示"></footer>
+    </main>
+  </div>
+  <script>
+    const shutter = document.getElementById('shutter');
+    shutter.addEventListener('click', () => { shutter.style.transform = 'scale(0.96)'; setTimeout(() => shutter.style.transform = 'scale(1.00)', 140); });
+  </script>
+</body>
+</html>

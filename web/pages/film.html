@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>底片页面 - GenoCam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .film-stack { display: grid; gap: 12px; padding: 16px; }
+    .film { height: 160px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.10)); border: 1px solid rgba(255,255,255,0.1); position: relative; box-shadow: var(--shadow-soft); }
+    .film::before, .film::after { content: ""; position: absolute; top: 50%; transform: translateY(-50%); width: 14px; height: 60%; background: rgba(0,0,0,0.35); border-radius: 8px; }
+    .film::before { left: 8px; } .film::after { right: 8px; }
+    .film .label { position: absolute; bottom: 10px; left: 16px; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <div class="device">
+    <div class="notch"></div>
+    <div class="sysbar"><span class="pill">uinotes.com</span><span class="dot"></span><span style="margin-left:auto;margin-right:16px;opacity:.6">❤</span></div>
+    <main class="app">
+      <header class="topbar"><div></div><div class="center">底片与重冲洗</div><div><button class="icon-btn">···</button></div></header>
+      <section class="film-stack">
+        <div class="film"><div class="label">ProLook</div></div>
+        <div class="film"><div class="label">VHS</div></div>
+        <div class="film"><div class="label">RAW</div></div>
+      </section>
+      <footer class="homebar"></footer>
+    </main>
+  </div>
+</body>
+</html>

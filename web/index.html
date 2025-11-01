@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GenoCam 页面索引</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #0f1115; color: #EAEFF7; font-family: "Urbanist", system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .wrap { max-width: 1400px; margin: 24px auto; padding: 0 16px; }
+    h1 { font-size: 24px; color: #98A2B3; margin: 8px 0 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; }
+    .tile { background: #171a20; border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); }
+    .label { margin-top: 10px; color: #98A2B3; }
+    .frame { display: grid; place-items: center; }
+    iframe { width: 392px; height: 720px; border: none; border-radius: 28px; background: #000; }
+    a { color: #5B8DEF; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>GenoCam 页面索引（独立页面，点击在新窗口打开）</h1>
+    <div class="grid">
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/welcome.html" title="欢迎页"></iframe></div>
+        <div class="label"><a href="./pages/welcome.html" target="_blank">欢迎页</a></div>
+      </div>
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/camera.html" title="相机主页面"></iframe></div>
+        <div class="label"><a href="./pages/camera.html" target="_blank">相机主页面</a></div>
+      </div>
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/preset.html" title="预设页面"></iframe></div>
+        <div class="label"><a href="./pages/preset.html" target="_blank">预设页面</a></div>
+      </div>
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/film.html" title="底片页面"></iframe></div>
+        <div class="label"><a href="./pages/film.html" target="_blank">底片页面</a></div>
+      </div>
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/gallery.html" title="相册页面"></iframe></div>
+        <div class="label"><a href="./pages/gallery.html" target="_blank">相册页面</a></div>
+      </div>
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/settings.html" title="设置页面"></iframe></div>
+        <div class="label"><a href="./pages/settings.html" target="_blank">设置页面</a></div>
+      </div>
+      <div class="tile">
+        <div class="frame"><iframe src="./pages/profile.html" title="个人主页"></iframe></div>
+        <div class="label"><a href="./pages/profile.html" target="_blank">个人主页</a></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

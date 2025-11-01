@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>欢迎页 - GenoCam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .hero { height: 440px; margin: 16px; border-radius: 18px; background: linear-gradient(180deg, #E84D3C, #7A0F0F); position: relative; box-shadow: var(--shadow-soft); display: grid; place-items: center; }
+    .hero h2 { font-size: 24px; text-align: center; line-height: 1.6; }
+    .icons { position: absolute; inset: 0; pointer-events: none; }
+    .icons span { position: absolute; font-size: 22px; opacity: .9; }
+    .cta { margin: 12px auto 0; display: grid; place-items: center; }
+    .cta a { display: inline-block; padding: 10px 18px; border-radius: 999px; background: #fff; color: #111; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="device">
+    <div class="notch"></div>
+    <div class="sysbar">
+      <span class="pill">uinotes.com</span>
+      <span class="dot" aria-label="indicator"></span>
+      <span style="margin-left:auto;margin-right:16px;opacity:.6">❤</span>
+    </div>
+    <main class="app">
+      <header class="topbar">
+        <div></div><div class="center">欢迎来到 Geno 相机</div><div><button class="icon-btn">···</button></div>
+      </header>
+      <section class="hero">
+        <div class="icons" aria-hidden="true">
+          <span style="left:20px;top:40px">📷</span>
+          <span style="left:90px;top:80px">📸</span>
+          <span style="right:40px;top:60px">🎞️</span>
+          <span style="left:40px;bottom:80px">📹</span>
+          <span style="right:60px;bottom:100px">📼</span>
+        </div>
+        <h2>模拟复古相机 · 照片与视频<br/>开启你的胶片创作之旅</h2>
+        <div class="cta"><a href="./camera.html">进入相机</a></div>
+      </section>
+      <section class="list">
+        <div class="item">最新功能：CCD 复古色彩、VHS 模式、8mm 电影</div>
+        <div class="item">快速上手：选择预设 → 构图 → 快门</div>
+      </section>
+      <footer class="homebar" aria-label="系统主页指示"></footer>
+    </main>
+  </div>
+</body>
+</html>
